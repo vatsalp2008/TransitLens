@@ -1,0 +1,15 @@
+# Version catalog for TransitLens.
+# Phase 0 covers the pure-Kotlin :core module only. Android/ML/data entries
+# are added in later phases when the :app module is introduced.
+[versions]
+kotlin = "2.0.21"
+junit5 = "5.11.3"
+
+[libraries]
+kotlin-test-junit5 = { module = "org.jetbrains.kotlin:kotlin-test-junit5", version.ref = "kotlin" }
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit5" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
+junit-platform-launcher = { module = "org.junit.platform:junit-platform-launcher" }
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
