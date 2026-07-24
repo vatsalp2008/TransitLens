@@ -1,0 +1,4 @@
+<resources>
+    <!-- Base window theme; the visible UI is themed by Compose (TransitLensTheme). -->
+    <style name="Theme.TransitLens" parent="android:Theme.Material.Light.NoActionBar" />
+</resources>

@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">TransitLens</string>
+
+    <!-- Onboarding (spoken via TalkBack / TTS; UI itself is icon-only) -->
+    <string name="onboard_title">Set up your travel needs</string>
+    <string name="onboard_wheelchair">Do you use a wheelchair or mobility aid?</string>
+    <string name="onboard_stairs">Do you need to avoid stairs?</string>
+    <string name="onboard_hills">Do you need to avoid steep hills?</string>
+    <string name="onboard_walk">How far can you comfortably walk?</string>
+    <string name="onboard_done">Done, save my preferences</string>
+    <string name="cd_selected">selected</string>
+    <string name="cd_not_selected">not selected</string>
+    <string name="home_title">TransitLens is ready</string>
+    <string name="home_subtitle">Camera guidance arrives in a later build.</string>
+</resources>

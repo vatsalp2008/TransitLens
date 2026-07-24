@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "TransitLens"
 include(":core")
+include(":app")
