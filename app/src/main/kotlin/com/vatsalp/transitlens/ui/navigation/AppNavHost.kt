@@ -5,11 +5,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.vatsalp.transitlens.ui.screens.HomeScreen
+import com.vatsalp.transitlens.ui.screens.NavigationScreen
 import com.vatsalp.transitlens.ui.screens.OnboardingScreen
 
 object Routes {
     const val ONBOARDING = "onboarding"
     const val HOME = "home"
+    const val NAVIGATION = "navigation"
 }
 
 @Composable
@@ -25,6 +27,9 @@ fun AppNavHost() {
                 },
             )
         }
-        composable(Routes.HOME) { HomeScreen() }
+        composable(Routes.HOME) {
+            HomeScreen(onStartNavigation = { navController.navigate(Routes.NAVIGATION) })
+        }
+        composable(Routes.NAVIGATION) { NavigationScreen() }
     }
 }

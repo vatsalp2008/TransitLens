@@ -11,5 +11,6 @@
     <string name="cd_selected">selected</string>
     <string name="cd_not_selected">not selected</string>
     <string name="home_title">TransitLens is ready</string>
-    <string name="home_subtitle">Camera guidance arrives in a later build.</string>
+    <string name="home_subtitle">Point the camera at your surroundings for guidance.</string>
+    <string name="home_start">Start navigation</string>
 </resources>
