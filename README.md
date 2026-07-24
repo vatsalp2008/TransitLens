@@ -52,17 +52,22 @@ See [`docs/`](docs/) for the architecture decisions behind each layer.
 
 ## Project status
 
-This repo is built in phases; each phase ends at something that compiles and is
-verified.
+Built in phases; each phase ends at something that compiles and is verified
+(`./gradlew :core:test :app:testDebugUnitTest :app:assembleDebug`).
 
 | Phase | Scope | Status |
 |---|---|---|
-| 0 | Pure-Kotlin `:core`: router, fusion, haptics, GTFS parse, text extract + tests | ✅ done — 36 tests green |
-| 1 | Android `:app` scaffold: Compose, Hilt, DataStore, onboarding, haptics/TTS | ⏳ next |
-| 2 | ML training pipeline (Python): scene classifier + object detector | ⏳ |
-| 3 | ML integration into `:app` (CameraX + TFLite + ML Kit + fusion) | ⏳ |
-| 4 | Seattle GTFS + GTFS-RT + OSM pedestrian graph | ⏳ |
-| 5 | Guidance UX, AR overlay, full WCAG pass, demo | ⏳ |
+| 0 | Pure-Kotlin `:core`: router, fusion, haptics, GTFS parse, text extract, graph builder | ✅ 38 unit tests green |
+| 1 | Android `:app`: Compose, Hilt, DataStore, zero-text onboarding, haptics + TTS | ✅ `assembleDebug` green |
+| 2 | ML training (Python): MobileNetV3 classifier + YOLOv8n detector → TFLite | ✅ pipeline exercised end-to-end¹ |
+| 3 | On-device pipeline in `:app`: CameraX + TFLite + ML Kit + fusion + live guidance | ✅ builds + packages models |
+| 4 | Transit data: Room cache, GTFS import, GTFS-RT protobuf parser, real-stops graph | ✅ parser + graph unit-tested |
+| 5 | Extra screens, AR overlay, full on-device demo | 🔧 in progress |
+
+¹ The training pipeline is validated end-to-end on a **synthetic smoke dataset**
+(train → evaluate → TFLite export → interpreter verify). Production accuracy
+(ADR-002 targets) needs the real datasets — see [`ml_training/README.md`](ml_training/README.md).
+Models are bundled into `assets/models/` (gitignored); the app degrades gracefully if absent.
 
 ## Haptic language
 
