@@ -1,0 +1,26 @@
+# TransitLens ML training — Python 3.12 venv (system 3.14 is too new for TF).
+#   python3.12 -m venv ml_training/.venv
+#   ml_training/.venv/bin/pip install -r ml_training/requirements.txt
+#
+# macOS note: for Keras/YOLO weight downloads, point urllib/requests at certifi:
+#   export SSL_CERT_FILE=$(python -c "import certifi; print(certifi.where())")
+#   export REQUESTS_CA_BUNDLE=$SSL_CERT_FILE
+
+# --- Scene classifier (MobileNetV3-Small -> TFLite) ---
+tensorflow==2.21.0
+pillow
+numpy
+scikit-learn
+matplotlib
+certifi
+
+# --- Object detector (YOLOv8n training) ---
+ultralytics==8.4.104
+
+# --- Detector TFLite conversion (YOLO -> ONNX -> onnx2tf -> TFLite) ---
+# Installing these perturbs the torch pin (see ADR-009); prefer a separate env
+# when converting if you also intend to re-train.
+onnx
+onnxruntime
+onnx2tf
+tf-keras
