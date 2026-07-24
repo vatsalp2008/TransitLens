@@ -69,6 +69,18 @@ Built in phases; each phase ends at something that compiles and is verified
 (ADR-002 targets) needs the real datasets — see [`ml_training/README.md`](ml_training/README.md).
 Models are bundled into `assets/models/` (gitignored); the app degrades gracefully if absent.
 
+## Screenshots
+
+Running on an Android 15 emulator (Pixel 6, API 35):
+
+| Zero-text onboarding | Ready to navigate |
+|---|---|
+| <img src="docs/screenshots/onboarding.png" width="240"> | <img src="docs/screenshots/home.png" width="240"> |
+
+The live navigation screen runs the full on-device pipeline (scene classifier +
+object detector + ML Kit OCR → context fusion → haptic/audio guidance) over the
+CameraX feed, announcing the current cue via a TalkBack live region.
+
 ## Haptic language
 
 A single-motor phone cannot render spatial left/right, so directions are
