@@ -42,11 +42,12 @@ Places365 → class mapping (validated in `datasets_places365.py`): `airport_ter
 $PY object_detector/make_dataset.py --mode openimages --max-samples 400   # bus + train boxes
 $PY object_detector/make_dataset.py --mode roboflow                       # accessibility classes (see below)
 ```
-The accessibility classes (elevator_door, escalator, crosswalk_marking, wheelchair_ramp,
-tactile_paving, accessibility_sign) come from **Roboflow Universe**: fill the `DATASETS`
-list in `object_detector/datasets_roboflow.py` with projects from
-https://universe.roboflow.com and `export ROBOFLOW_API_KEY=...` (free), then run the
-command above. Class-name remapping to our 8-class scheme is handled automatically.
+Four **Roboflow Universe** datasets are already wired in `object_detector/datasets_roboflow.py`
+(crosswalk + zebra-crossing → crosswalk_marking; tactile-pavement; escalator). Put your free
+key in a gitignored `ml_training/.env` (`ROBOFLOW_API_KEY=...`) and run the command above — it
+downloads, converts segmentation polygons → bboxes, remaps class names to our 8-class scheme,
+and merges (~2,600 labeled images; verified). Still needing a good public dataset:
+**elevator_door, wheelchair_ramp, accessibility_sign** — add more projects to `DATASETS`.
 
 macOS: `export SSL_CERT_FILE=$(ml_training/.venv/bin/python -c "import certifi;print(certifi.where())")`
 for the Places365 downloads. Old `--mode smoke` still works for a zero-download pipeline check.
