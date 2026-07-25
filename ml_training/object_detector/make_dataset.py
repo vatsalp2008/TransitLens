@@ -1,13 +1,12 @@
 """Build the object-detector dataset in YOLO format.
 
-  --mode smoke       (default) Generate a small synthetic bbox dataset (one colored
-                     motif per class at a known box). Validates the train/export
-                     pipeline without downloads; NOT a production dataset.
-  --mode openimages  Guidance for the real dataset (Open Images bus/train +
-                     500+ custom-annotated Seattle accessibility-infrastructure
-                     images per ADR-009).
+Modes:
+  smoke       (default) synthetic bbox images to validate the pipeline (no downloads).
+  openimages  real Open Images v7 boxes (Bus, Train) via FiftyOne — see datasets_openimages.py.
+  roboflow    real accessibility-class boxes from Roboflow Universe — see datasets_roboflow.py.
+  real        openimages + roboflow combined.
 
-Produces: data/detect/{train,val}/images/*.png, .../labels/*.txt, and data.yaml
+Produces: data/detect/{train,val}/images/*, .../labels/*.txt, and data.yaml
 """
 import argparse
 
@@ -37,7 +36,6 @@ def _one_image(rng: np.random.Generator):
             d.rectangle([x, y, x + w, y + h], fill=COLORS[cls])
         else:
             d.ellipse([x, y, x + w, y + h], fill=COLORS[cls])
-        # YOLO label: class cx cy w h (normalized 0..1)
         labels.append(
             f"{cls} {(x + w / 2) / IMG_SIZE:.6f} {(y + h / 2) / IMG_SIZE:.6f} "
             f"{w / IMG_SIZE:.6f} {h / IMG_SIZE:.6f}"
@@ -58,7 +56,6 @@ def build_smoke(train_n: int, val_n: int) -> None:
             img, labels = _one_image(rng)
             img.save(img_dir / f"img_{i:04d}.png")
             (lbl_dir / f"img_{i:04d}.txt").write_text("\n".join(labels) + "\n")
-
     DATA_YAML.write_text(
         yaml.safe_dump(
             {
@@ -75,20 +72,20 @@ def build_smoke(train_n: int, val_n: int) -> None:
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--mode", choices=["smoke", "openimages"], default="smoke")
+    ap.add_argument("--mode", choices=["smoke", "openimages", "roboflow", "real"], default="smoke")
     ap.add_argument("--train-n", type=int, default=120)
     ap.add_argument("--val-n", type=int, default=30)
+    ap.add_argument("--max-samples", type=int, default=400, help="Open Images sample cap")
     args = ap.parse_args()
 
     if args.mode == "smoke":
         build_smoke(args.train_n, args.val_n)
-    else:
-        print(
-            "Real dataset (openimages mode): pull Open Images 'Bus'/'Train' with\n"
-            "fiftyone, annotate 500+ Seattle images of elevator_door/escalator/\n"
-            "crosswalk_marking/wheelchair_ramp/tactile_paving/accessibility_sign in\n"
-            "YOLO format under data/detect/{train,val}/, then reuse train.py."
-        )
+    if args.mode in ("openimages", "real"):
+        import datasets_openimages
+        datasets_openimages.run(max_samples=args.max_samples)
+    if args.mode in ("roboflow", "real"):
+        import datasets_roboflow
+        datasets_roboflow.run()
 
 
 if __name__ == "__main__":

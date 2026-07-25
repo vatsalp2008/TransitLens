@@ -24,3 +24,8 @@ onnx
 onnxruntime
 onnx2tf
 tf-keras
+
+# --- Real dataset fetchers (heavy; run on Colab GPU). Places365 uses only stdlib. ---
+pyyaml            # YOLO data.yaml read/write
+fiftyone          # Open Images v7 (scene classifications + detector boxes)
+roboflow          # Roboflow Universe accessibility datasets (needs ROBOFLOW_API_KEY)
